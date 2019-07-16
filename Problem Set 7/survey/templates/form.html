@@ -1,0 +1,90 @@
+{% extends "layout.html" %}
+
+{% block main %}
+
+    <!-- http://getbootstrap.com/docs/4.1/content/typography/ -->
+    <h1 class="mb-4">Software Engineer Form</h1>
+
+    <!-- http://getbootstrap.com/docs/4.1/components/forms/ -->
+    <form class="needs-validation" action="/form" method="post" novalidate>
+        <div class="form-group">
+            <input autocomplete="off" autofocus class="form-control" id="Name" name="name" placeholder="Name" type="text" required>
+            <div class="valid-feedback">
+                Looks good!
+            </div>
+            <div class="invalid-feedback">
+                Please input your name.
+            </div>
+        </div>
+
+        <div class="form-group">
+                <label class="form-check-label mb-1">Age Range:</label>
+                <div class="form-check">
+                    <input class="form-check-input" id="Twenties" name="age" type="radio" value="Twenties" required>
+                    <label class="form-check-label" for="Twenties">18-29</label>
+                </div>
+                <div class="form-check">
+                    <input class="form-check-input" id="Thirties" name="age" type="radio" value="Thirties" required >
+                    <label class="form-check-label" for="Thirties">30-39</label>
+                </div>
+                <div class="form-check">
+                    <input class="form-check-input" id="Fourties" name="age" type="radio" value="Fourties" required>
+                    <label class="form-check-label" for="Fourties">40-49</label>
+                </div>
+                <div class="form-check">
+                    <input class="form-check-input" id="Fifties" name="age" type="radio" value="Fifties" required>
+                    <label class="form-check-label" for="Fifties">50+</label>
+                    <div class="valid-feedback">
+                        Looks good!
+                     </div>
+                    <div class="invalid-feedback">
+                        Please select an age range.
+                    </div>
+                </div>
+        </div>
+
+        <div class="form-group">
+            <select class="form-control" name="language" required>
+                <option disabled selected value="">Preferred Language</option>
+                <option value="JavaScript">JavaScript</option>
+                <option value="Python">Python</option>
+                <option value="PHP">PHP</option>
+                <option value="Java">Java</option>
+                <option value="C">C</option>
+                <option value="Other">Other</option>
+            </select>
+            <div class="valid-feedback">
+                Looks good!
+            </div>
+            <div class="invalid-feedback">
+                Please select a preferred language.
+            </div>
+        </div>
+
+        <!-- http://getbootstrap.com/docs/4.1/components/buttons/ -->
+        <button class="btn btn-primary" type="submit">Submit</button>
+    </form>
+
+    <script>
+        (function() {
+        'use strict';
+        window.addEventListener('load', function() {
+            // Fetch all the forms we want to apply custom Bootstrap validation styles to
+            var forms = document.getElementsByClassName('needs-validation');
+
+            // Loop over them and prevent submission
+            var validation = Array.prototype.filter.call(forms, function(form) {
+                form.addEventListener('submit', function(event) {
+                    if (form.checkValidity() === false) {
+
+                        event.preventDefault();
+                        event.stopPropagation();
+                    }
+                    form.classList.add('was-validated');
+                    }, false);
+                });
+            }, false);
+        })();
+    </script>
+
+{% endblock %}
