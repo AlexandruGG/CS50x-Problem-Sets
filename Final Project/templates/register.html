@@ -1,0 +1,81 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    Register
+{% endblock %}
+
+{% block main %}
+    <form action="/register" method="post" id="registerForm" class="needs-validation" novalidate>
+        <div class="form-group">
+            <input id="username" autocomplete="off" autofocus class="form-control auto-width" name="username" placeholder="Username" type="text" required>
+            <div class="invalid-feedback">
+              Unique username is required.
+            </div>
+        </div>
+        <div class="form-group">
+            <input id="password" autocomplete="off" class="form-control auto-width" name="password" placeholder="Password" type="password" required>
+            <div class="invalid-feedback">
+              Password is required.
+            </div>
+        </div>
+        <div class="form-group">
+            <input id="confirmation" autocomplete="off" class="form-control auto-width" name="confirmation" placeholder="Re-type Password" type="password" required>
+            <div class="invalid-feedback">
+              Password confirmation is required and must match password.
+            </div>
+        </div>
+        <button class="btn btn-primary" type="submit">Register</button>
+    </form>
+
+    <script>
+        $(document).ready(function() {
+            $('#username').blur(function(e) {
+                if($('#username').val()) {
+                    $.get("/check-username?username=" + $('#username').val(), function(isValid) {
+                    isValid ? $('#username').addClass('is-valid').removeClass('is-invalid') : $('#username').addClass('is-invalid').removeClass('is-valid');
+                });
+                } else {
+                    $('#username').addClass('is-invalid').removeClass('is-valid');
+                }
+            });
+
+            $('#password').blur(function(e) {
+                $('#password').val() ? $('#password').addClass('is-valid').removeClass('is-invalid') : $('#password').addClass('is-invalid').removeClass('is-valid');
+            });
+
+            $('#confirmation').blur(function(e) {
+                !$('#confirmation').val() || $('#confirmation').val() !== $('#password').val() ?
+                    $('#confirmation').addClass('is-invalid').removeClass('is-valid') :
+                    $('#confirmation').addClass('is-valid').removeClass('is-invalid');
+            });
+        });
+
+        (function() {
+          'use strict';
+          window.addEventListener('load', function() {
+            var forms = document.getElementsByClassName('needs-validation');
+
+            Array.prototype.filter.call(forms, function(form) {
+              form.addEventListener('submit', function(event) {
+
+                if (document.getElementById('password').value !== document.getElementById('confirmation').value) {
+                    event.preventDefault();
+                    event.stopPropagation();
+
+                    document.getElementById('confirmation').setCustomValidity('Password and confirmation must match');
+                } else {
+                    document.getElementById('confirmation').setCustomValidity('');
+                }
+
+
+                if (form.checkValidity() === false) {
+                  event.preventDefault();
+                  event.stopPropagation();
+                }
+                form.classList.add('was-validated');
+              }, false);
+            });
+          }, false);
+        })();
+     </script>
+{% endblock %}

@@ -1,0 +1,57 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    Home
+{% endblock %}
+
+{% block main %}
+    <form action="/" method="post" id="searchForm" class="margin-bottom">
+        <div class="form-group">
+            <input id="query" autofocus class="form-control input-border" name="query" placeholder="Search stories, topics..." type="text">
+        </div>
+    </form>
+   <table class="table table-striped">
+        <thead class="thead-dark">
+            <tr>
+                <th>Date</th>
+                <th>Section</th>
+                <th>Title</th>
+                <th>URL</th>
+                <th>Save</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for story in news %}
+                <tr>
+                    <td>{{ story.date|strftime }}</td>
+                    <td>{{ story.section }}</td>
+                    <td>{{ story.title }}</td>
+                    <td><a href="{{ story.url }}" target="_blank">Read Story</a></td>
+                    <td><button class="btn btn-primary" id="save-{{ loop.index-1 }}" type="submit" onclick="saveStory(this)">Save</button></td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <script>
+        const saveStory = async (elem) => {
+            const rowNumber = $(elem).attr('id').slice(-1);
+            const jsNews = {{ news|tojson }};
+
+            const response = await fetch('/save-story', {
+                method: 'POST',
+                body: JSON.stringify(jsNews[rowNumber]),
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            });
+            const success = await response.json();
+
+            if (success) {
+                $(elem).text('Saved');
+            } else {
+                $(elem).text('Failed');
+            }
+        };
+    </script>
+{% endblock %}

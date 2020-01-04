@@ -1,0 +1,61 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    Saved Stories
+{% endblock %}
+
+{% block main %}
+
+<div class="auto-width">
+{% if stories|length == 0 %}
+    <div class="margin-bottom-small"><span>No saved stories.</span></div>
+{% else %}
+   <table class="table table-striped">
+        <thead class="thead-dark">
+            <tr>
+                <th>Date</th>
+                <th>Section</th>
+                <th>Title</th>
+                <th>URL</th>
+                <th>Delete</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for story in stories %}
+                <tr>
+                    <td>{{ story.date|strftime }}</td>
+                    <td>{{ story.section }}</td>
+                    <td>{{ story.title }}</td>
+                    <td><a href="{{ story.url }}" target="_blank">Read Story</a></td>
+                    <td><button class="btn btn-primary" id="save-{{ loop.index-1 }}" type="submit" onclick="deleteStory(this)">Delete</button></td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+{% endif %}
+
+    <div><a href="/" class="btn btn-link">Go to Homepage</a></div>
+</div>
+
+<script>
+    const deleteStory = async (elem) => {
+        const rowNumber = $(elem).attr('id').slice(-1);
+        const jsStories = {{ stories|tojson }};
+
+        const response = await fetch('/delete-story', {
+            method: 'DELETE',
+            body: jsStories[rowNumber].id,
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        });
+        const success = await response.json();
+
+        if (success) {
+            window.location.reload();
+        } else {
+            alert('Failed to delete story!');
+        }
+    };
+</script>
+{% endblock %}

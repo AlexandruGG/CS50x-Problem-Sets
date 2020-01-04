@@ -1,0 +1,49 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    Preferences
+{% endblock %}
+
+{% block main %}
+    <form action="/preferences" method="post">
+      <div class="margin-bottom">
+        <div class="form-check form-check-inline">
+            <input class="form-check-input" name="art" type="checkbox" id="art" value="art">
+            <label class="form-check-label" for="art">Art</label>
+        </div>
+        <div class="form-check form-check-inline">
+            <input class="form-check-input" name="business" type="checkbox" id="business" value="business">
+            <label class="form-check-label" for="business">Business</label>
+        </div>
+        <div class="form-check form-check-inline">
+            <input class="form-check-input" name="entertainment" type="checkbox" id="entertainment" value="entertainment">
+            <label class="form-check-label" for="entertainment">Entertainment</label>
+        </div>
+        <div class="form-check form-check-inline">
+            <input class="form-check-input" name="health" type="checkbox" id="health" value="health">
+            <label class="form-check-label" for="health">Health</label>
+        </div>
+        <div class="form-check form-check-inline">
+            <input class="form-check-input" name="music" type="checkbox" id="music" value="music">
+            <label class="form-check-label" for="music">Music</label>
+        </div>
+        <div class="form-check form-check-inline">
+            <input class="form-check-input" name="politics" type="checkbox" id="politics" value="politics">
+            <label class="form-check-label" for="politics">Politics</label>
+        </div>
+        <div class="form-check form-check-inline">
+            <input class="form-check-input" name="science" type="checkbox" id="science" value="science">
+            <label class="form-check-label" for="science">Science</label>
+        </div>
+        <div class="form-check form-check-inline">
+            <input class="form-check-input" name="sports" type="checkbox" id="sports" value="sports">
+            <label class="form-check-label" for="sports">Sports</label>
+        </div>
+        <div class="form-group">
+            <input id="other" class="form-control auto-width margin-top-small" name="other" placeholder="Other..." type="text">
+        </div>
+      </div>
+
+        <button class="btn btn-primary" type="submit">Submit</button>
+    </form>
+{% endblock %}
